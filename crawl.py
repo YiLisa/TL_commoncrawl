@@ -28,8 +28,7 @@ SELECTED_SITES = ["cnn.com", "economist.com", "nytimes.com", "abcnews.go.com",
                   "yahoo.com/news", "www.thetimes.co.uk",
                   "npr.org", "nypost.com", "abcnews.go.com", "nbcnews.com",
                   "cbsnews.com",
-                  "newsweek.com", "mercurynews.com", "metrotimes.com",
-                  "news10.com", ]
+                  "newsweek.com",]
 
 Crawl_URLs = [
     f"http://index.commoncrawl.org/CC-MAIN-{date}-index?url=https://{site}&matchType=domain&output=json"
@@ -49,6 +48,8 @@ def crawler(response, current):
         if len(MATCHES) > 1000:
             return
         site_json = json.loads(site_json)
+        if all(word not in site_json["url"] for word in KEYWORDS_1):
+            continue
         site = ''
         while site == '':
             try:
